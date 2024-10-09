@@ -1,7 +1,7 @@
 import $ from "jquery";
 
-export const baseURL = "http://localhost:8000/admin-api/";
-export const ImagesURL = "http://localhost:8000";
+export const baseURL = "https://blogtests.pythonanywhere.com/admin-api/";
+export const ImagesURL = "https://blogtests.pythonanywhere.com";
 
 const is_authenticated = () => {
     return localStorage.getItem("token")!== null;
