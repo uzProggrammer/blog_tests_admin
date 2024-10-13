@@ -35,3 +35,7 @@ export const resultsQuiz = (id, data, success, error) => {
 export const getResult = (id,id1, data, success, error) => {
     baseAPI("tests/"+id+"/results/"+id1+"/", 'GET', data, success, error);
 }
+
+export const uploadDocx = (id,id1, data, success, error) => {
+    baseAPI("tests/"+id+"/upload-docx/", 'POST', data, success, error, true);
+}

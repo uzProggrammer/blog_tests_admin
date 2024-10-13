@@ -1,65 +1,185 @@
-// import { CKEditor } from '@ckeditor/ckeditor5-react';
-// import {ClassicEditor, Bold, Essentials, Italic, Mention, Paragraph, Undo, Heading, FontColor, FontBackgroundColor, FontFamily, FontSize, BlockQuote, CodeBlock, Strikethrough, Subscript, Superscript, Code, Link,} from 'ckeditor5';
-// import MathType from '@wiris/mathtype-ckeditor5/dist/index.js';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import {
+	ClassicEditor,
+	AccessibilityHelp,
+	Autoformat,
+	AutoImage,
+	Autosave,
+	Base64UploadAdapter,
+	BlockQuote,
+	Bold,
+	Code,
+	Essentials,
+	FindAndReplace,
+	FontBackgroundColor,
+	FontColor,
+	FontFamily,
+	FontSize,
+	Heading,
+	Highlight,
+	ImageBlock,
+	ImageCaption,
+	ImageInline,
+	ImageInsert,
+	ImageInsertViaUrl,
+	ImageResize,
+	ImageStyle,
+	ImageTextAlternative,
+	ImageToolbar,
+	ImageUpload,
+	Indent,
+	IndentBlock,
+	Italic,
+	Link,
+	LinkImage,
+	List,
+	ListProperties,
+	MediaEmbed,
+	Paragraph,
+	PasteFromOffice,
+	RemoveFormat,
+	SelectAll,
+	SourceEditing,
+	SpecialCharacters,
+	SpecialCharactersArrows,
+	SpecialCharactersCurrency,
+	SpecialCharactersEssentials,
+	SpecialCharactersLatin,
+	SpecialCharactersMathematical,
+	SpecialCharactersText,
+	Strikethrough,
+	Subscript,
+	Superscript,
+	Table,
+	TableCaption,
+	TableCellProperties,
+	TableColumnResize,
+	TableProperties,
+	TableToolbar,
+	TextTransformation,
+	TodoList,
+	Underline,
+	Undo
+} from 'ckeditor5';
+import MathType from '@wiris/mathtype-ckeditor5/dist/index.js';
 
-// import { baseURL } from '../api';
+import { baseURL } from '../api';
 
-// import './styles.scss';
+import './styles.scss';
 
-// import 'ckeditor5/ckeditor5.css';
+import 'ckeditor5/ckeditor5.css';
 
-// function CKEDITOR(props) {
+function CKEDITOR(props) {
 
-//     return (
-//         <CKEditor
-//             editor={ClassicEditor}
-//             config={{
-//                 toolbar: {
-//                     items: [
-//                         'undo', 'redo',
-//                         '|',
-//                         'heading',
-//                         '|',
-//                         'fontfamily', 'fontsize', 'fontColor', 'fontBackgroundColor',
-//                         '|',
-//                         'bold', 'italic', 'strikethrough', 'subscript', 'superscript', 'code',
-//                         '|',
-//                         'link', 'ImageUpload', 'blockQuote', 'codeBlock',
-//                         '|',
-//                         'MathType', 'ChemType',],
-//                 },
-//                 plugins: [
-//                     Bold, Essentials, Italic, Mention, Paragraph, Undo, Heading, FontColor, FontBackgroundColor, FontFamily, FontSize, BlockQuote, CodeBlock, Strikethrough, Subscript, Superscript, Code, Link, MathType
-//                 ],
-//                 initialData: props.value,
-//             }}
-//             onChange={(event, editor) => { props.onChange(editor.getData()); }}
-//         />
-//     );
-// }
-
-// export default CKEDITOR;
-
-
-import React from 'react';
-import { Editor } from '@tinymce/tinymce-react';
-
-import '../assets/tiny/skins/ui/CUSTOM/content.css'
-
-
-export default function CKEDITOR(props) {
-    let useDarkMode = localStorage.getItem('coreui-free-react-admin-template-theme') === 'dark';
-  return (
-    <Editor
-      apiKey='17a7wrogyqde5oyr8zrqqq2htjo86oedjrlbztd41drtencr'
-      init={{
-        skin: useDarkMode ? 'oxide-dark' : 'oxide',
-        content_css: useDarkMode ? 'dark' : 'default',
-        plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
-        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
-      }}
-      initialValue={props.value}
-      onChange={(e)=>{props.onChange(e.level.content)}}
-    />
-  );
+    return (
+        <CKEditor
+            editor={ClassicEditor}
+            config={{
+                toolbar: {
+                    items: [
+                        'undo',
+						'redo',
+						'|',
+						'sourceEditing',
+						'findAndReplace',
+						'|',
+						'heading',
+						'|',
+						'fontSize',
+						'fontFamily',
+						'fontColor',
+						'fontBackgroundColor',
+						'|',
+						'bold',
+						'italic',
+						'underline',
+						'strikethrough',
+						'subscript',
+						'superscript',
+						'code',
+						'removeFormat',
+						'|',
+						'specialCharacters',
+						'link',
+						'insertImage',
+						'mediaEmbed',
+						'insertTable',
+						'highlight',
+						'blockQuote',
+						'|',
+						'bulletedList',
+						'numberedList',
+						'todoList',
+						'outdent',
+						'indent',
+                        'MathType', 'ChemType',],
+                },
+                plugins: [
+                    AccessibilityHelp,
+					Autoformat,
+					AutoImage,
+					Autosave,
+					Base64UploadAdapter,
+					BlockQuote,
+					Bold,
+					Code,
+					Essentials,
+					FindAndReplace,
+					FontBackgroundColor,
+					FontColor,
+					FontFamily,
+					FontSize,
+					Heading,
+					Highlight,
+					ImageBlock,
+					ImageCaption,
+					ImageInline,
+					ImageInsert,
+					ImageInsertViaUrl,
+					ImageResize,
+					ImageStyle,
+					ImageTextAlternative,
+					ImageToolbar,
+					ImageUpload,
+					Indent,
+					IndentBlock,
+					Italic,
+					Link,
+					LinkImage,
+					List,
+					ListProperties,
+					MediaEmbed,
+					Paragraph,
+					PasteFromOffice,
+					RemoveFormat,
+					SelectAll,
+					SourceEditing,
+					SpecialCharacters,
+					SpecialCharactersArrows,
+					SpecialCharactersCurrency,
+					SpecialCharactersEssentials,
+					SpecialCharactersLatin,
+					SpecialCharactersMathematical,
+					SpecialCharactersText,
+					Strikethrough,
+					Subscript,
+					Superscript,
+					Table,
+					TableCaption,
+					TableCellProperties,
+					TableColumnResize,
+					TableProperties,
+					TableToolbar,
+					TextTransformation,
+					TodoList,
+					Underline,
+					Undo, MathType,
+                ],
+                initialData: props.value,
+            }}
+            onChange={(event, editor) => { props.onChange(editor.getData()); }}
+        />
+    );
 }
+
+export default CKEDITOR;

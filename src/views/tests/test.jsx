@@ -1,14 +1,19 @@
 import React from "react";
 
-import { CRow, CCol, CCard, CButton, CModal, CModalHeader, CModalBody, CModalFooter, CModalTitle, CFormSwitch } from "@coreui/react";
+import { CRow, CCol, CCard, CButton, CModal, CModalHeader, CModalBody, CModalFooter, CModalTitle, CFormSwitch, CSpinner } from "@coreui/react";
 
 import { useParams, useNavigate, Link } from "react-router-dom";
 
 import { getTest, createTest, deleteTest, updateTest, updateQuiz } from "../../api/tests";
 
+import { baseURL } from "../../api";
+import $ from "jquery";
+
 import { cilCheckCircle, cilXCircle, cilPencil, cilPlus, cilSave, cilChart } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
 import CKEDITOR from "../../components/quil";
+
+import { toast } from "react-toastify";
 
 export default function Test() {
     const { id } = useParams();
@@ -16,6 +21,8 @@ export default function Test() {
     const [test, setTest] = React.useState(null);
     const [is_create, setIsCreate] = React.useState(false);
 
+    const error_toast = (m)=>toast.error(m, {autoClose: 5000, });
+    const success_toast = (m)=>toast.success(m, {autoClose: 5000, });
 
     const [test_text, setTestText] = React.useState("");
     const [test_answer1, setTestAnswer1] = React.useState("");
@@ -36,6 +43,10 @@ export default function Test() {
 
     const [test_edit, setTestEdit] = React.useState(null);
     const [test_data, setTestData] = React.useState(null);
+
+
+    const docx_file_input_ref = React.useRef(null);
+    const[is_uploading, setIsUploading] = React.useState(false);
 
     React.useEffect(() => {
         getTest(id, null,
@@ -261,7 +272,59 @@ export default function Test() {
                             </CModalFooter>
                         </CModal>
                         <CCard className="p-2 py-3">
-                            <h5 className="mb-3 text-center">Savollar</h5>
+                            <div className="d-flex justify-content-between align-items-center mb-3">
+                                <h5 className="mb-3 text-center">Savollar</h5>
+                                <CButton color="primary" onClick={() => {setIsUploading(true);docx_file_input_ref.current.click()}}>{is_uploading && <CSpinner size="sm" />} Docx yuklash</CButton>
+                                <input type="file" accept=".doc, .docx" hidden ref={docx_file_input_ref} onChange={e=>{
+                                    console.log(e.target.files[0]);
+                                    const formData = new FormData();
+                                    formData.append("file", e.target.files[0]);
+                                    $.ajax({
+                                        url: baseURL+"tests/"+id+"/upload-docx/",
+                                        type: 'POST',
+                                        headers: {
+                                            "Authorization": "Token " + localStorage.getItem("token"),
+                                        },
+                                        data: formData,
+                                        processData:false,
+                                        contentType: false,
+                                        success: data=>{
+                                            console.log(data);
+                                            if(data.status!=='ok'){
+                                                error_toast(data.error);
+                                            }
+                                            else{
+                                                getTest(id, null,
+                                                    data => {
+                                                        setTest(data);
+                                                    },
+                                                    error => {
+                                                        if (error.status === 404) {
+                                                            navigate("/404");
+                                                        } else {
+                                                            console.log(error);
+                                                        }
+                                                    }
+                                                );
+                                                setIsUploading(false);
+                                                e.target.value = "";
+                                                success_toast('Testlar yaratildi!')
+                                            }
+                                        },
+                                        error: e=>{
+                                            if(e.status===401){
+                                                localStorage.removeItem('user');
+                                                localStorage.removeItem('token');
+                                                location.hash = '#/login';
+                                            }
+                                            console.error(e);
+                                            setIsUploading(false);
+                                            e.target.value = "";
+                                            error_toast("Docx yuklashda xatolik yuz berdi");
+                                        },
+                                    });
+                                }} />
+                            </div>
                             {test.questions_data.map((question, index) => (
                                 <div key={index} style={{ borderBottom: "1px solid #ccc" }}>
                                     <div className="title d-flex align-items-center mb-3 gap-2">
