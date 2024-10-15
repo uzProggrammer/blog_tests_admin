@@ -176,6 +176,12 @@ function CKEDITOR(props) {
 					Undo, MathType,
                 ],
                 initialData: props.value,
+				image: {
+					toolbar: [
+						'imageStyle:inline', 'imageStyle:wrapText', 'imageStyle:breakText', '|',
+						'toggleImageCaption', 'imageTextAlternative'
+					]
+				}
             }}
             onChange={(event, editor) => { props.onChange(editor.getData()); }}
         />

@@ -63,6 +63,7 @@ export default function Test() {
         )
     }, [id]);
 
+
     return (
         <>
             {test &&
@@ -340,7 +341,7 @@ export default function Test() {
                                         ))}
                                     </div>
                                     <div className="text-end mt-2 mb-2">
-                                        <CButton onClick={(e) => {setVisible1(true);setEdited(true);setEditedId(question.id);setTestText(question.text);setTestAnswer1(question.variants[0].text);setTestAnswer2(question.variants[1].text);setTestAnswer3(question.variants[2].text);setTestAnswer4(question.variants[3].text);setTestIsCorrect(question.variants[0].is_correct);setBall(question.ball);}} className="btn btn-primary" style={{ marginRight: "10px" }} color="primary"><CIcon icon={cilPencil} size="sm" /> Tahrirlash</CButton>
+                                        <CButton onClick={(e) => {setVisible1(true);setEdited(true);setEditedId(question.id);setTestText(question.text);setTestAnswer1(question.variants[0].text);setTestAnswer2(question.variants[1].text);setTestAnswer3(question.variants[2].text);setTestAnswer4(question.variants[3].text);setTestIsCorrect(question.variants[0].is_correct? 1 : (question.variants[1].is_correct ? 2 : (question.variants[2].is_correct ? 3 : 4)));setBall(question.ball);}} className="btn btn-primary" style={{ marginRight: "10px" }} color="primary"><CIcon icon={cilPencil} size="sm" /> Tahrirlash</CButton>
                                         <CButton color="danger" onClick={() => {setVisible(true);setDeleted(question.text);setDeletedId(question.id);}}>  O'chirish</CButton>
                                     </div>
                                 </div>
@@ -390,7 +391,6 @@ export default function Test() {
                                             </div>
                                         </div>
                                         <CButton color="primary" onClick={() => {
-                                            console.log(test_text, test_answer1, test_answer2, test_answer3, test_answer4, test_is_correct);
                                             createTest(id, JSON.stringify({
                                                 text: test_text,
                                                 1: test_answer1,
