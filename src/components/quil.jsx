@@ -61,7 +61,7 @@ import {
 	Underline,
 	Undo
 } from 'ckeditor5';
-import MathType from '@wiris/mathtype-ckeditor5/dist/index.js';
+// import MathType from '@wiris/mathtype-ckeditor5/dist/index.js';
 
 import { baseURL } from '../api';
 
@@ -112,7 +112,8 @@ function CKEDITOR(props) {
 						'todoList',
 						'outdent',
 						'indent',
-                        'MathType', 'ChemType',],
+                        // 'MathType', 'ChemType',
+					],
                 },
                 plugins: [
                     AccessibilityHelp,
@@ -173,7 +174,8 @@ function CKEDITOR(props) {
 					TextTransformation,
 					TodoList,
 					Underline,
-					Undo, MathType,
+					Undo,
+					//  MathType,
                 ],
                 initialData: props.value,
 				image: {
