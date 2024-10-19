@@ -22,6 +22,10 @@ const BlogResults = React.lazy(() => import('./views/blog-tests/results.jsx'))
 const BlogResult = React.lazy(() => import('./views/blog-tests/result.jsx'))
 const CreateBlogTest = React.lazy(() => import('./views/blog-tests/create.jsx'))
 
+
+const FedbacksView = React.lazy(() => import('./views/fedbacks/all.jsx'))
+const FeedbackView = React.lazy(() => import('./views/fedbacks/feedback.jsx'))
+
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Statistika', element: Dashboard },
@@ -47,6 +51,10 @@ const routes = [
   { path: '/blog-tests/:id/results', name: 'Blog test natijalari', element: BlogResults },
   { path: '/blog-tests/:id/results/:id1', name: 'Blog test natijalari', element: BlogResult },
   { path: '/blog-tests/:id', name: 'Blog test', element: BlogTest },
+
+  
+  { path: '/feedbacks', name: 'E\'tirozlar', element: FedbacksView },
+  { path: '/feedbacks/:id', name: 'E\'tirozlar', element: FeedbackView },
 ]
 
 export default routes

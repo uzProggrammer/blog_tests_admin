@@ -39,3 +39,10 @@ export const getResult = (id,id1, data, success, error) => {
 export const uploadDocx = (id,id1, data, success, error) => {
     baseAPI("tests/"+id+"/upload-docx/", 'POST', data, success, error, true);
 }
+
+export const deleteResults = (id, data, success, error) => {
+    baseAPI("tests/"+id+"/results/delete/", 'POST', data, success, error);
+}
+export const changeResults = (id, data, success, error) => {
+    baseAPI("tests/"+id+"/results/change/", 'POST', data, success, error);
+}

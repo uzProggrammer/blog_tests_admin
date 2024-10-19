@@ -46,3 +46,10 @@ export const getGroups = (data, success, error) => {
 export const createDTM = (data, success, error) => {
     baseAPI("blog-tests/create/", 'POST', data, success, error);
 }
+
+export const deleteResults = (id, data, success, error) => {
+    baseAPI("blog-tests/"+id+"/results/delete/", 'POST', data, success, error);
+}
+export const changeResults = (id, data, success, error) => {
+    baseAPI("blog-tests/"+id+"/results/change/", 'POST', data, success, error);
+}

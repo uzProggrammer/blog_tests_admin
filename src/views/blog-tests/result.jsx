@@ -2,6 +2,11 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getResult } from "../../api/blog_tests";
 
+import CIcon from "@coreui/icons-react";
+import { cilSearch, cilCheck, cilX } from "@coreui/icons";
+
+import './styles.scss'
+
 export default function BlogResult(){
     let{id,id1}=useParams()
     let navigate = useNavigate()
@@ -25,7 +30,7 @@ export default function BlogResult(){
             {result.data && 
                 <>
                     <div className="text-center">
-                        <button className="btn btn-outline-success btn-lg">{result.data.correct_answers} / {result.data.quizs.length}</button>
+                        <button className="btn btn-outline-success btn-lg">{result.data.correct_answers} / {result.dtm.question_count}</button>
                         <button className="btn btn-outline-primary btn-lg ms-3">{result.data.time_token}</button>
                     </div>
                     <div className="card p-3 mt-3">
@@ -60,15 +65,23 @@ export default function BlogResult(){
                                 </tfoot>
                             </table>
                         </div>
+                        <div>
+                            <button className="btn btn-primary mt-3" onClick={()=>navigate('/blog-tests/'+id+'/results?similar_to='+id1)}><CIcon icon={cilSearch}/> O'xshashlarini qidirish</button>
+                        </div>
                         <div className="mt-3">
                             {result.data.quizs.map((quiz,index)=>(
                                 <div key={index} className="my-3">
-                                    {quiz.title}
-                                    <div className="mt-2">
+                                    <h5>{quiz.title}</h5>
+                                    <div className="mt-2 px-3">
                                         {result.data.answers.map((answer,index)=>(
                                             <>
                                                 {answer.question.title===quiz.title &&
-                                                    <button className={answer.is_correct?"btn btn-primary me-2":"btn btn-danger me-2"} key={index}>{index+1}</button>
+                                                    <div key={index}>
+                                                        <div className="mt-2 d-flex align-items-center">
+                                                            {index+1}. <div dangerouslySetInnerHTML={{__html:answer.variant.text}}></div>
+                                                            <CIcon icon={answer.is_correct? cilCheck: cilX} className="ms-2" style={{color:answer.is_correct?'var(--cui-success)':'var(--cui-danger)'}} />
+                                                        </div>
+                                                    </div>
                                                 }
                                             </>
                                         ))}

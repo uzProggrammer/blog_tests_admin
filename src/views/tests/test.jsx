@@ -68,7 +68,7 @@ export default function Test() {
         <>
             {test &&
                 <CRow className="mb-3">
-                    <CCol md={3} xs={12} className="mb-3">
+                    <CCol md={12} xs={12} className="mb-3">
                         <CCard className="p-2 py-3">
                             {!test_edit &&
                                 <>
@@ -136,7 +136,7 @@ export default function Test() {
                             }
                         </CCard>
                     </CCol>
-                    <CCol md={9}>
+                    <CCol md={12}>
                         <CModal
                         
                             alignment="center"
