@@ -61,7 +61,9 @@ import {
 	Underline,
 	Undo
 } from 'ckeditor5';
-// import MathType from '@wiris/mathtype-ckeditor5/dist/index.js';
+import MathType from '@wiris/mathtype-ckeditor5/dist/index.js';
+
+
 
 import { baseURL } from '../api';
 
@@ -83,6 +85,8 @@ function CKEDITOR(props) {
 						'sourceEditing',
 						'findAndReplace',
 						'|',
+						'subscript',
+						'superscript',
 						'heading',
 						'|',
 						'fontSize',
@@ -94,8 +98,6 @@ function CKEDITOR(props) {
 						'italic',
 						'underline',
 						'strikethrough',
-						'subscript',
-						'superscript',
 						'code',
 						'removeFormat',
 						'|',
@@ -112,7 +114,7 @@ function CKEDITOR(props) {
 						'todoList',
 						'outdent',
 						'indent',
-                        // 'MathType', 'ChemType',
+                        'MathType', 'ChemType',
 					],
                 },
                 plugins: [
@@ -175,7 +177,7 @@ function CKEDITOR(props) {
 					TodoList,
 					Underline,
 					Undo,
-					//  MathType,
+					MathType,
                 ],
                 initialData: props.value,
 				image: {

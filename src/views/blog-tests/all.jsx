@@ -17,7 +17,7 @@ import {
     CPagination,
     CPaginationItem
 } from "@coreui/react";
-import { cilCheckCircle, cilXCircle, cilSearch } from "@coreui/icons";
+import { cilCheckCircle, cilPlus, cilSearch } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
 
 import { useNavigate } from "react-router-dom";
@@ -69,6 +69,9 @@ export default function AllBlokTests(){
                                         }} placeholder="Qidirish..." aria-label="Qidirish" aria-describedby="basic-addon2"/>
                                         <CButton className="input-group-text btn-outline-primary"><CIcon icon={cilSearch}/></CButton>
                                     </CInputGroup>
+                                    <div className="text-end">
+                                        <button className="btn btn-primary" onClick={e=>{navigate('/blog-tests/add')}}><CIcon icon={cilPlus}/> Blok test yaratish</button>
+                                    </div>
                                 </CTableHeaderCell>
                             </CTableRow>
                             <CTableRow>

@@ -1,7 +1,7 @@
 import React from "react";
 import { CTable, CTableHead, CTableRow, CTableHeaderCell, CTableBody, CTableDataCell, CTableFoot, CPagination, CPaginationItem, CButton } from "@coreui/react";
 
-import { cilCheckCircle, cilXCircle, cilSearch } from "@coreui/icons";
+import { cilCheckCircle, cilPlus, cilSearch } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
 import { groupsApi } from "../../api/groups";
 
@@ -50,6 +50,9 @@ export default function  AllGroups(){
                                 <div className="input-group">
                                     <input type="text" className="form-control" id="search" value={search} onChange={(e)=>{setSearch(e.target.value);fetchUsers({'search':e.target.value})}} />
                                     <CButton className="input-group-text border-secondary"><CIcon  icon={cilSearch}  /></CButton>
+                                </div>
+                                <div className="text-end mt-3">
+                                    <button className="btn btn-primary" onClick={e=>{navigate('/groups/add')}}><CIcon icon={cilPlus}/> Guruh yaratish</button>
                                 </div>
                             </CTableHeaderCell>
                         </CTableRow>

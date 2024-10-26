@@ -16,7 +16,7 @@ import {
     CPaginationItem
 } from "@coreui/react";
 
-import { cilCheckCircle, cilXCircle, cilSearch } from "@coreui/icons";
+import { cilCheckCircle, cilXCircle, cilSearch, cilPlus } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
 
 import { getTests } from "../../api/tests";
@@ -68,6 +68,9 @@ export default function AllTests() {
                                     }} placeholder="Qidirish..." aria-label="Qidirish" aria-describedby="basic-addon2"/>
                                     <CButton className="input-group-text btn-outline-primary"><CIcon icon={cilSearch}/></CButton>
                                 </CInputGroup>
+                                <div className="text-end">
+                                    <button className="btn btn-primary" onClick={e=>{navigate('/tests/add')}}><CIcon icon={cilPlus}/> Test yaratish</button>
+                                </div>
                             </CTableHeaderCell>
                         </CTableRow>
                         <CTableRow>

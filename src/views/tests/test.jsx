@@ -46,6 +46,7 @@ export default function Test() {
 
 
     const docx_file_input_ref = React.useRef(null);
+    const pdf_file_input_ref = React.useRef(null);
     const[is_uploading, setIsUploading] = React.useState(false);
 
     React.useEffect(() => {
@@ -311,6 +312,57 @@ export default function Test() {
                                                 e.target.value = "";
                                                 success_toast('Testlar yaratildi!')
                                             }
+                                        },
+                                        error: e=>{
+                                            if(e.status===401){
+                                                localStorage.removeItem('user');
+                                                localStorage.removeItem('token');
+                                                location.hash = '#/login';
+                                            }
+                                            console.error(e);
+                                            setIsUploading(false);
+                                            e.target.value = "";
+                                            error_toast("Docx yuklashda xatolik yuz berdi");
+                                        },
+                                    });
+                                }} />
+
+
+                                <CButton color="primary" onClick={() => {setIsUploading(true);pdf_file_input_ref.current.click()}}>{is_uploading && <CSpinner size="sm" />} PDF yuklash</CButton>
+                                <input type="file" accept=".pdf" hidden ref={pdf_file_input_ref} onChange={e=>{
+                                    const formData = new FormData();
+                                    formData.append("file", e.target.files[0]);
+                                    $.ajax({
+                                        url: baseURL+"tests/"+id+"/upload-pdf/",
+                                        type: 'POST',
+                                        headers: {
+                                            "Authorization": "Token " + localStorage.getItem("token"),
+                                        },
+                                        data: formData,
+                                        processData:false,
+                                        contentType: false,
+                                        success: data=>{
+                                            // console.log(data);
+                                            // if(data.status!=='ok'){
+                                            //     error_toast(data.error);
+                                            // }
+                                            // else{
+                                            //     getTest(id, null,
+                                            //         data => {
+                                            //             setTest(data);
+                                            //         },
+                                            //         error => {
+                                            //             if (error.status === 404) {
+                                            //                 navigate("/404");
+                                            //             } else {
+                                            //                 console.log(error);
+                                            //             }
+                                            //         }
+                                            //     );
+                                            //     setIsUploading(false);
+                                            //     e.target.value = "";
+                                            //     success_toast('Testlar yaratildi!')
+                                            // }
                                         },
                                         error: e=>{
                                             if(e.status===401){
