@@ -13,7 +13,8 @@ import { cilCheckCircle, cilXCircle, cilPencil, cilPlus, cilSave, cilChart } fro
 import CIcon from "@coreui/icons-react";
 import CKEDITOR from "../../components/quil";
 
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Test() {
     const { id } = useParams();
@@ -69,6 +70,18 @@ export default function Test() {
         <>
             {test &&
                 <CRow className="mb-3">
+                    <ToastContainer
+                        position="top-right"
+                        autoClose={5000}
+                        hideProgressBar={false}
+                        newestOnTop={false}
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss
+                        draggable
+                        pauseOnHover
+                        theme="colored"
+                    />
                     <CCol md={12} xs={12} className="mb-3">
                         <CCard className="p-2 py-3">
                             {!test_edit &&
@@ -276,107 +289,110 @@ export default function Test() {
                         <CCard className="p-2 py-3">
                             <div className="d-flex justify-content-between align-items-center mb-3">
                                 <h5 className="mb-3 text-center">Savollar</h5>
-                                <CButton color="primary" onClick={() => {setIsUploading(true);docx_file_input_ref.current.click()}}>{is_uploading && <CSpinner size="sm" />} Docx yuklash</CButton>
-                                <input type="file" accept=".doc, .docx" hidden ref={docx_file_input_ref} onChange={e=>{
-                                    console.log(e.target.files[0]);
-                                    const formData = new FormData();
-                                    formData.append("file", e.target.files[0]);
-                                    $.ajax({
-                                        url: baseURL+"tests/"+id+"/upload-docx/",
-                                        type: 'POST',
-                                        headers: {
-                                            "Authorization": "Token " + localStorage.getItem("token"),
-                                        },
-                                        data: formData,
-                                        processData:false,
-                                        contentType: false,
-                                        success: data=>{
-                                            console.log(data);
-                                            if(data.status!=='ok'){
-                                                error_toast(data.error);
-                                            }
-                                            else{
-                                                getTest(id, null,
-                                                    data => {
-                                                        setTest(data);
-                                                    },
-                                                    error => {
-                                                        if (error.status === 404) {
-                                                            navigate("/404");
-                                                        } else {
-                                                            console.log(error);
+                                <div>
+                                    <CButton color="primary" onClick={() => {setIsUploading(true);docx_file_input_ref.current.click()}}>{is_uploading && <CSpinner size="sm" />} Docx yuklash</CButton>
+                                    <input type="file" accept=".doc, .docx" hidden ref={docx_file_input_ref} onChange={e=>{
+                                        console.log(e.target.files[0]);
+                                        const formData = new FormData();
+                                        formData.append("file", e.target.files[0]);
+                                        $.ajax({
+                                            url: baseURL+"tests/"+id+"/upload-docx/",
+                                            type: 'POST',
+                                            headers: {
+                                                "Authorization": "Token " + localStorage.getItem("token"),
+                                            },
+                                            data: formData,
+                                            processData:false,
+                                            contentType: false,
+                                            success: data=>{
+                                                console.log(data);
+                                                if(data.status!=='ok'){
+                                                    error_toast(data.error);
+                                                }
+                                                else{
+                                                    getTest(id, null,
+                                                        data => {
+                                                            setTest(data);
+                                                        },
+                                                        error => {
+                                                            if (error.status === 404) {
+                                                                navigate("/404");
+                                                            } else {
+                                                                console.log(error);
+                                                            }
                                                         }
-                                                    }
-                                                );
+                                                    );
+                                                    setIsUploading(false);
+                                                    e.target.value = "";
+                                                    success_toast('Testlar yaratildi!')
+                                                }
+                                            },
+                                            error: e=>{
+                                                if(e.status===401){
+                                                    localStorage.removeItem('user');
+                                                    localStorage.removeItem('token');
+                                                    location.hash = '#/login';
+                                                }
+                                                console.error(e);
                                                 setIsUploading(false);
                                                 e.target.value = "";
-                                                success_toast('Testlar yaratildi!')
-                                            }
-                                        },
-                                        error: e=>{
-                                            if(e.status===401){
-                                                localStorage.removeItem('user');
-                                                localStorage.removeItem('token');
-                                                location.hash = '#/login';
-                                            }
-                                            console.error(e);
-                                            setIsUploading(false);
-                                            e.target.value = "";
-                                            error_toast("Docx yuklashda xatolik yuz berdi");
-                                        },
-                                    });
-                                }} />
+                                                error_toast("Docx yuklashda xatolik yuz berdi");
+                                            },
+                                        });
+                                    }} />
 
 
-                                <CButton color="primary" onClick={() => {setIsUploading(true);pdf_file_input_ref.current.click()}}>{is_uploading && <CSpinner size="sm" />} PDF yuklash</CButton>
-                                <input type="file" accept=".pdf" hidden ref={pdf_file_input_ref} onChange={e=>{
-                                    const formData = new FormData();
-                                    formData.append("file", e.target.files[0]);
-                                    $.ajax({
-                                        url: baseURL+"tests/"+id+"/upload-pdf/",
-                                        type: 'POST',
-                                        headers: {
-                                            "Authorization": "Token " + localStorage.getItem("token"),
-                                        },
-                                        data: formData,
-                                        processData:false,
-                                        contentType: false,
-                                        success: data=>{
-                                            // console.log(data);
-                                            // if(data.status!=='ok'){
-                                            //     error_toast(data.error);
-                                            // }
-                                            // else{
-                                            //     getTest(id, null,
-                                            //         data => {
-                                            //             setTest(data);
-                                            //         },
-                                            //         error => {
-                                            //             if (error.status === 404) {
-                                            //                 navigate("/404");
-                                            //             } else {
-                                            //                 console.log(error);
-                                            //             }
-                                            //         }
-                                            //     );
-                                            //     setIsUploading(false);
-                                            //     e.target.value = "";
-                                            //     success_toast('Testlar yaratildi!')
-                                            // }
-                                        },
-                                        error: e=>{
-                                            if(e.status===401){
-                                                localStorage.removeItem('user');
-                                                localStorage.removeItem('token');
-                                                location.hash = '#/login';
-                                            }
-                                            console.error(e);
-                                            setIsUploading(false);
-                                            e.target.value = "";
-                                            error_toast("Docx yuklashda xatolik yuz berdi");
-                                        },
-                                    });
-                                }} />
+                                    <CButton color="primary" className="ms-3" onClick={() => {setIsUploading(true);pdf_file_input_ref.current.click()}}>{is_uploading && <CSpinner size="sm" />} PDF yuklash</CButton>
+                                    <input type="file" accept=".pdf" hidden ref={pdf_file_input_ref} onChange={e=>{
+                                        const formData = new FormData();
+                                        formData.append("file", e.target.files[0]);
+                                        $.ajax({
+                                            url: baseURL+"tests/"+id+"/upload-pdf/",
+                                            type: 'POST',
+                                            headers: {
+                                                "Authorization": "Token " + localStorage.getItem("token"),
+                                            },
+                                            data: formData,
+                                            processData:false,
+                                            contentType: false,
+                                            success: data=>{
+                                                if(data.status!=='ok'){
+                                                    error_toast(data.error);
+                                                    setIsUploading(false);
+                                                    e.target.value = "";
+                                                }
+                                                else{
+                                                    getTest(id, null,
+                                                        data => {
+                                                            setTest(data);
+                                                        },
+                                                        error => {
+                                                            if (error.status === 404) {
+                                                                navigate("/404");
+                                                            } else {
+                                                                console.log(error);
+                                                            }
+                                                        }
+                                                    );
+                                                    setIsUploading(false);
+                                                    e.target.value = "";
+                                                    success_toast('Testlar yaratildi!')
+                                                }
+                                            },
+                                            error: e=>{
+                                                if(e.status===401){
+                                                    localStorage.removeItem('user');
+                                                    localStorage.removeItem('token');
+                                                    location.hash = '#/login';
+                                                }
+                                                console.error(e);
+                                                setIsUploading(false);
+                                                e.target.value = "";
+                                                error_toast("Docx yuklashda xatolik yuz berdi");
+                                            },
+                                        });
+                                    }} />
+                                </div>
                             </div>
                             {test.questions_data.map((question, index) => (
                                 <div key={index} style={{ borderBottom: "1px solid #ccc" }}>

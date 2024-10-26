@@ -33,6 +33,7 @@ const App = () => {
 
   return (
     <HashRouter>
+      
       <Suspense
         fallback={
           <div className="pt-3 text-center">
