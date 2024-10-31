@@ -26,6 +26,10 @@ const CreateBlogTest = React.lazy(() => import('./views/blog-tests/create.jsx'))
 const FedbacksView = React.lazy(() => import('./views/fedbacks/all.jsx'))
 const FeedbackView = React.lazy(() => import('./views/fedbacks/feedback.jsx'))
 
+
+const MessagesList = React.lazy(() => import('./views/messages/list.jsx'))
+const Messenger = React.lazy(() => import('./views/messages/message.jsx'))
+
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Statistika', element: Dashboard },
@@ -55,6 +59,10 @@ const routes = [
   
   { path: '/feedbacks', name: 'E\'tirozlar', element: FedbacksView },
   { path: '/feedbacks/:id', name: 'E\'tirozlar', element: FeedbackView },
+
+  
+  { path: '/messages', name: 'Suhbatlar', element: MessagesList },
+  { path: '/messages/:id', name: 'Suhbat', element: Messenger },
 ]
 
 export default routes

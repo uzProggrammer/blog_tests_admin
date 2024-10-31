@@ -61,8 +61,6 @@ import {
 	Underline,
 	Undo
 } from 'ckeditor5';
-import MathType from '@wiris/mathtype-ckeditor5/dist/index.js';
-
 
 
 import { baseURL } from '../api';
@@ -114,7 +112,6 @@ function CKEDITOR(props) {
 						'todoList',
 						'outdent',
 						'indent',
-                        'MathType', 'ChemType',
 					],
                 },
                 plugins: [
@@ -177,7 +174,6 @@ function CKEDITOR(props) {
 					TodoList,
 					Underline,
 					Undo,
-					MathType,
                 ],
                 initialData: props.value,
 				image: {
@@ -185,9 +181,58 @@ function CKEDITOR(props) {
 						'imageStyle:inline', 'imageStyle:wrapText', 'imageStyle:breakText', '|',
 						'toggleImageCaption', 'imageTextAlternative'
 					]
-				}
+				},
+				balloonToolbar: ['bold', 'italic', '|', 'link', 'insertImage', '|', 'subscript', 'superscript'],
+				fontSize: {
+					options: [10, 12, 14, 'default', 18, 20, 22],
+					supportAllValues: true
+				},
+				link: {
+					addTargetToExternalLinks: true,
+					defaultProtocol: 'https://',
+					decorators: {
+						toggleDownloadable: {
+							mode: 'manual',
+							label: 'Downloadable',
+							attributes: {
+								download: 'file'
+							}
+						}
+					}
+				},
+				list: {
+					properties: {
+						styles: true,
+						startIndex: true,
+						reversed: true
+					}
+				},
+				table: {
+					contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells', 'tableProperties', 'tableCellProperties']
+				},
+				blockToolbar: [
+					'fontSize',
+					'fontColor',
+					'fontBackgroundColor',
+					'|',
+					'bold',
+					'italic',
+					'|',
+					'link',
+					'insertImage',
+					'insertTable',
+					'|',
+					'bulletedList',
+					'numberedList',
+					'outdent',
+					'indent'
+				],
+				menuBar: {
+					isVisible: true
+				},
             }}
             onChange={(event, editor) => { props.onChange(editor.getData()); }}
+			
         />
     );
 }

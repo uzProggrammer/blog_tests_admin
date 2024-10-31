@@ -13,7 +13,8 @@ import {
   // cilStar,
   cilUser,
   cilChart,
-  cilBadge
+  cilBadge,
+  cilCommand
 } from '@coreui/icons'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 
@@ -65,6 +66,12 @@ const _nav = [
     name: 'E\'tirozlar',
     to: '/feedbacks',
     icon: <CIcon icon={cilBadge} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Xabarlar',
+    to: '/messages',
+    icon: <CIcon icon={cilCommand} customClassName="nav-icon" />,
   },
   
 ]
