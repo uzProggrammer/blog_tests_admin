@@ -50,6 +50,16 @@ export const removeStudent = (id, data, success, error)=>{
     )
 }
 
+export const UpdateGroupApi = (id, data, success, error)=>{
+    baseAPI(
+        `groups/${id}/update/`,
+        'POST',
+        data,
+        success,
+        error
+    )
+}
+
 export const createGroupApi = (data, success, error)=>{
     baseAPI(
         `groups/create/`,

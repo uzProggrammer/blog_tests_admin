@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import {CTable, CTableHead, CTableRow, CTableHeaderCell, CTableBody, CTableDataCell, CTabs, CTabList, CTab} from "@coreui/react";
-import { getGroupApi, removeStudent, getDTMS } from "../../api/groups";
+import { getGroupApi, removeStudent, getDTMS, UpdateGroupApi } from "../../api/groups";
 import '../users/styles.scss';
-
+import { FaGear } from "react-icons/fa6";
 import CIcon from "@coreui/icons-react";
-import { cilMinus, cilPlus } from "@coreui/icons";
+import { cilMinus, cilPlus, cilSave } from "@coreui/icons";
 
 export default function Group() {
     const { id } = useParams();
@@ -15,6 +15,9 @@ export default function Group() {
 
     const [selecteds, setSelecteds] = useState([]);
 
+    
+    const [group_title, setGroupTitle] = useState('');
+    const [group_password, setGroupPassword] = useState('');
 
     const [dtms, setDTMS] = useState([]);
 
@@ -24,6 +27,8 @@ export default function Group() {
         }, error=>{console.error(error)})
         getGroupApi(id, data => {
             setGroup(data);
+            setGroupTitle(data.data.name);
+            setGroupPassword(data.data.password);
         }, error => {
             if(error.response.status === 404) {
                 navigate('/404')
@@ -48,6 +53,7 @@ export default function Group() {
                                     <CTabList variant="tabs" layout="fill">
                                         <CTab aria-controls="home-tab-pane" onClick={() => setActiveKey(1)} itemKey={1}>Foydalanuvchilar</CTab>
                                         <CTab aria-controls="profile-tab-pane" onClick={() => setActiveKey(2)} itemKey={2}>Blog testlar</CTab>
+                                        <CTab aria-controls="profile-tab-pane" onClick={() => setActiveKey(3)} itemKey={3}><FaGear /></CTab>
                                     </CTabList>
                                 </CTabs>
                             </div>
@@ -142,6 +148,37 @@ export default function Group() {
                                     </CTableBody>
                                 </CTable>
                             }
+                        </div>
+
+                        <div className={active_key === 3? "a-o mt-3 d-block" : "d-none"}>
+                            <h5 className="mb-3">Sozlamalar</h5>
+                            <div className="mb-3">
+                                <label htmlFor="title">Guruh nomi</label>
+                                <input type="text" name="title" id="title" className="form-control" value={group_title} onChange={(e) => {
+                                    setGroupTitle(e.target.value)
+                                }} />
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="password">Guruhga qo'shilish paroli</label>
+                                <input type="text" readOnly name="password" id="password" className="form-control" value={group_password} />
+                            </div>
+                            <div className="mb-3">
+                                <button className="btn btn-primary" onClick={e=>{
+                                    UpdateGroupApi(id, JSON.stringify({title: group_title}), data=>{
+                                        if(data.status==='ok'){
+                                            getGroupApi(id, data=>{
+                                                setGroup(data);
+                                                setGroupTitle(data.data.name);
+                                                setGroupPassword(data.data.password);
+                                            }, error=>{
+                                                console.error(error);
+                                            })
+                                        }
+                                    }, error=>{
+                                        console.error(error);
+                                    })
+                                }}><CIcon icon={cilSave} /> Saqlash</button>
+                            </div>
                         </div>
                     </div>
                 </>

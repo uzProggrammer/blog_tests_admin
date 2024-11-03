@@ -21,11 +21,13 @@ import CIcon from "@coreui/icons-react";
 
 import { getTests } from "../../api/tests";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 export default function AllTests() {
 
     const navigate = useNavigate();
+
+    const [searchParams, setSearchParams] = useSearchParams();
 
     const [tests, setTests] = React.useState([]);
 
@@ -34,6 +36,7 @@ export default function AllTests() {
 
     const paginate = (pageNumber) => {
             setCurrentPage(pageNumber);
+            setSearchParams({page:pageNumber});
             getTests({'page':pageNumber}, data=>{
                 setTests(data)
             },
@@ -41,12 +44,36 @@ export default function AllTests() {
         )
     }
 
-    React.useEffect(() => {
-        getTests(null, data=>{
+    React.useEffect(e=>{
+        setCurrentPage(searchParams.get('page'))
+        if('search' in searchParams){
+            setSearch(searchParams.get('search'))
+        }
+        getTests({page:searchParams.get('page'), search:search} , data=>{
             setTests(data)
         }),
         error => {
             console.log(error)
+        }
+    }, [searchParams])
+
+    React.useEffect(() => {
+        if('page' in searchParams){
+            setCurrentPage(parseInt(searchParams.get('page')));
+            getTests({'page':searchParams.get('page'), 'search':search}, data=>{
+                setTests(data);
+
+            }),
+            error => {
+                console.log(error)
+            }
+        } else{
+            getTests(null, data=>{
+                setTests(data)
+            }),
+            error => {
+                console.log(error)
+            }
         }
     }, [])
 
@@ -58,8 +85,8 @@ export default function AllTests() {
                         <CTableRow>
                             <CTableHeaderCell style={{padding:'15px'}} scope="col" colSpan={"6"}>
                                 <CInputGroup className="mb-3">
-                                    <CFormInput value={search} onChange={e=>{
-                                        setSearch(e.target.value);
+                                    <CFormInput value={searchParams.get('search')} onChange={e=>{
+                                        setSearchParams(old=>{return {...old,search:e.target.value}});
                                         getTests({'search':e.target.value}, data=>{
                                             setTests(data)
                                         },
@@ -101,7 +128,7 @@ export default function AllTests() {
                                     <CPagination align="center" aria-label="Page navigation example">
                                         <CPaginationItem disabled={currentPage===1} onClick={()=>paginate(currentPage-1)}>Previous</CPaginationItem>
                                         {tests.pages_count.length>1 && tests.pages_count.map((page, index) => (
-                                            <CPaginationItem style={{cursor:'pointer'}} key={index} active={currentPage===page} onClick={()=>paginate(page)}>{page}</CPaginationItem>
+                                            <CPaginationItem style={{cursor:'pointer'}} key={index} active={currentPage===page.toString()} onClick={()=>paginate(page)}>{page}</CPaginationItem>
                                         ))}
                                         <CPaginationItem style={{cursor:'pointer'}} disabled={currentPage===tests.pages_count} onClick={()=>paginate(currentPage+1)}>Next</CPaginationItem>
                                     </CPagination>
